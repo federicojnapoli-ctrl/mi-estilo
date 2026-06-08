@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Cápsula — Outfits</title>
+<meta name="theme-color" content="#16181c" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<style>
+:root {
+  --bg: #16181c; --bg-elev: #1e2127; --bg-card: #23272f; --line: #2e333c;
+  --text: #e8eaed; --text-dim: #9aa0aa; --text-faint: #6b7280;
+  --accent: #5b7a6b; --accent-soft: #2a3a33; --danger: #8a5050;
+  --radius: 10px; --font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; -webkit-font-smoothing: antialiased; }
+body { min-height: 100vh; }
+.app { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; min-height: 100vh; }
+.header { display: flex; align-items: center; justify-content: space-between; padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 9px; }
+.logo { fill: var(--accent); }
+.brand-name { font-size: 17px; font-weight: 600; letter-spacing: 0.04em; }
+.refresh { background: transparent; border: 1px solid var(--line); color: var(--text-dim); border-radius: 8px; padding: 7px; cursor: pointer; display: flex; transition: all .15s ease; }
+.refresh:hover { color: var(--text); border-color: var(--accent); }
+.refresh svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.refresh.spinning svg { animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.filters { display: flex; gap: 7px; padding: 14px 18px; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.chip { white-space: nowrap; padding: 7px 14px; border-radius: 20px; border: 1px solid var(--line); background: var(--bg-elev); color: var(--text-dim); cursor: pointer; font-size: 13px; transition: all .15s ease; }
+.chip:hover { color: var(--text); }
+.chip.active { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+.content { flex: 1; padding: 14px 18px; }
+.outfit { background: var(--bg-card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 11px; animation: rise .3s ease backwards; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.outfit-tag { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 9px; }
+.piece-row { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; flex-wrap: wrap; }
+.piece-cat { color: var(--text-faint); font-size: 12px; min-width: 66px; }
+.piece-name { color: var(--text); }
+.piece-meta { color: var(--text-dim); font-size: 12px; }
+.layer-flag { margin-top: 11px; padding-top: 11px; border-top: 1px dashed var(--line); display: flex; align-items: center; gap: 6px; color: var(--text-dim); font-size: 13px; }
+.layer-flag strong { color: var(--accent); font-weight: 600; }
+.advice h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); margin: 16px 0 9px; }
+.advice-item { background: var(--bg-card); border: 1px solid var(--line); border-left: 2px solid var(--accent); border-radius: 8px; padding: 11px 13px; margin-bottom: 9px; }
+.advice-item.remove { border-left-color: var(--danger); }
+.advice-item .ttl { font-weight: 600; }
+.advice-item .why { color: var(--text-dim); font-size: 13px; margin-top: 3px; }
+.state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 18px; color: var(--text-dim); text-align: center; gap: 14px; }
+.spinner { width: 26px; height: 26px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+.footer { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12px; }
+.meta { color: var(--text-faint); }
+.link-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 12px; text-decoration: underline; }
+.link-btn:hover { color: var(--text); }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.65); display: flex; align-items: center; justify-content: center; padding: 18px; z-index: 10; }
+.modal { background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; width: 100%; max-width: 440px; }
+.modal h2 { font-size: 16px; margin-bottom: 8px; }
+.modal-help { color: var(--text-dim); font-size: 13px; line-height: 1.5; margin-bottom: 13px; }
+.modal-help strong { color: var(--text); }
+textarea { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; color: var(--text); padding: 9px; font-size: 12px; font-family: monospace; resize: vertical; }
+.modal-actions { display: flex; gap: 8px; margin-top: 13px; }
+.btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 9px 18px; cursor: pointer; font-size: 13px; }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--line); border-radius: 8px; padding: 9px 18px; cursor: pointer; font-size: 13px; }
+.install-banner { display: none; align-items: center; gap: 10px; padding: 11px 18px; background: var(--accent-soft); border-bottom: 1px solid var(--line); font-size: 13px; }
+.install-banner.show { display: flex; }
+.install-banner button { margin-left: auto; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+        <path d="M12 2.5 8.5 5H5.2a1 1 0 0 0-.93.64L2.6 10a1 1 0 0 0 .55 1.29l2.35.94V20a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-7.77l2.35-.94A1 1 0 0 0 21.4 10l-1.67-4.36a1 1 0 0 0-.93-.64H15.5L12 2.5Z"/>
+      </svg>
+      <span class="brand-name">Cápsula</span>
+    </div>
+    <button id="refresh" class="refresh" title="Actualizar inventario">
+      <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 4v5h-5"/></svg>
+    </button>
+  </header>
+
+  <div class="install-banner" id="install-banner">
+    <span>Instalá Cápsula en tu dispositivo</span>
+    <button class="btn-primary" id="install-btn">Instalar</button>
+  </div>
+
+  <nav class="filters" id="filters"></nav>
+
+  <main id="content" class="content">
+    <div class="state" id="loading"><div class="spinner"></div><p>Leyendo tu inventario…</p></div>
+  </main>
+
+  <footer class="footer">
+    <span id="meta" class="meta"></span>
+    <button id="settings-btn" class="link-btn">Configurar hoja</button>
+  </footer>
+
+  <div class="modal-backdrop" id="settings" hidden>
+    <div class="modal">
+      <h2>Configuración</h2>
+      <p class="modal-help">Pegá la URL de tu hoja <strong>Vestuario_Plan</strong> publicada como CSV (Archivo → Compartir → Publicar en la Web → CSV).</p>
+      <textarea id="csv-url" rows="3" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?output=csv"></textarea>
+      <div class="modal-actions">
+        <button id="save-url" class="btn-primary">Guardar</button>
+        <button id="close-settings" class="btn-ghost">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Cápsula — Outfits (PWA). Lee Vestuario_Plan publicada como CSV. Solo lectura. ===== */
+const SETTINGS_KEY = "capsula_csv_url";
+const CACHE_KEY = "capsula_cache";
+
+/* ---- Parser CSV robusto ---- */
+function parseCSV(text){
+  const rows=[]; let row=[],cell="",q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i],n=text[i+1];
+    if(q){ if(c==='"'&&n==='"'){cell+='"';i++;} else if(c==='"'){q=false;} else cell+=c; }
+    else { if(c==='"')q=true; else if(c===","){row.push(cell);cell="";} else if(c==="\n"){row.push(cell);rows.push(row);row=[];cell="";} else if(c==="\r"){} else cell+=c; }
+  }
+  if(cell.length||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(r=>r.some(x=>x.trim()!==""));
+}
+const norm = s => (s||"").toString().trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+function extractInventory(rows){
+  let hi=-1;
+  for(let i=0;i<rows.length;i++){ const h=rows[i].map(norm); if(h.includes("categoria")&&h.includes("prenda")){hi=i;break;} }
+  if(hi===-1) return [];
+  const header=rows[hi].map(norm); const col=n=>header.findIndex(h=>h.includes(n));
+  const ci={cat:col("categoria"),prenda:col("prenda"),marca:col("marca"),color:col("color"),vers:col("versatilidad"),estado:col("estado"),dec:col("decision"),motivo:col("motivo")};
+  const items=[];
+  for(let i=hi+1;i<rows.length;i++){
+    const r=rows[i],ah=r.map(norm);
+    if(ah.includes("prioridad")||ah.includes("ocasion")) break;
+    const p=r[ci.prenda]; if(!p||!p.trim()) continue;
+    items.push({categoria:(r[ci.cat]||"").trim(),prenda:p.trim(),marca:(r[ci.marca]||"").trim(),color:(r[ci.color]||"").trim(),versatilidad:parseInt(r[ci.vers])||0,estado:(r[ci.estado]||"").trim(),decision:(r[ci.dec]||"").trim(),motivo:(r[ci.motivo]||"").trim()});
+  }
+  return items;
+}
+
+/* ---- Reglas de estilo ---- */
+function isActive(it){ const d=norm(it.decision); if(d.includes("sacar"))return false; if(d.includes("ropa de casa")||d.includes("casa"))return false; if(d.includes("nicho")||d.includes("fuera de rotacion"))return false; return true; }
+const SLOTS={abrigo:["chaquetas","abrigos"],capa:["sweaters","buzos"],torso:["camisas","polos","remeras","camisetas","jerseys"],piernas:["pantalones","shorts"],calzado:["calzado"],accesorio:["accesorios","bolsos","mochilas"]};
+function slotOf(it){ const c=norm(it.categoria); for(const[s,ks]of Object.entries(SLOTS)){ if(ks.some(k=>c.includes(k)))return s; } return null; }
+const OCCASIONS={
+  oficina:{label:"Oficina / Smart casual",match:it=>/oficina|smart|formal|vestir|clave|comodin|premium|estudio/.test(norm(it.motivo+" "+it.decision))},
+  casual:{label:"Casual diario",match:it=>/casual|base|comodin|diario/.test(norm(it.motivo+" "+it.decision))},
+  invierno:{label:"Invierno",match:it=>/invierno|capa media|abrigo|polar/.test(norm(it.motivo+" "+it.decision))},
+  verano:{label:"Verano / finde",match:it=>/verano|pileta|finde|fresco/.test(norm(it.motivo+" "+it.decision))},
+  deporte:{label:"Deportivo",match:it=>/entrenamiento|gym|deportivo|running|yoga/.test(norm(it.motivo+" "+it.decision))}
+};
+function colorsClash(a,b){ const loud=it=>/rayas|floral|estampad|vichy|cuadros/.test(norm(it.prenda+" "+it.color)); return loud(a)&&loud(b); }
+
+/* ---- Motor ---- */
+function pick(items,slot,occ){ const pool=items.filter(it=>slotOf(it)===slot&&OCCASIONS[occ].match(it)); const fb=items.filter(it=>slotOf(it)===slot); return (pool.length?pool:fb).sort((a,b)=>b.versatilidad-a.versatilidad); }
+function buildOutfits(items,occ){
+  const a=items.filter(isActive);
+  const torsos=pick(a,"torso",occ),piernas=pick(a,"piernas",occ),calzados=pick(a,"calzado",occ),capas=pick(a,"capa",occ);
+  const abrigosAll=a.filter(it=>slotOf(it)==="abrigo").sort((x,y)=>y.versatilidad-x.versatilidad);
+  const abrigosOcc=abrigosAll.filter(it=>OCCASIONS[occ].match(it));
+  const abrigos=abrigosOcc.length?abrigosOcc:abrigosAll;
+  const out=[],seen=new Set(),needLayer=occ==="invierno";
+  let czIdx=0,abIdx=0; // índices rotativos para que calzado y abrigo no se claven en el primero
+  for(const t of torsos.slice(0,5)){
+    for(const p of piernas.slice(0,4)){
+      if(colorsClash(t,p))continue;
+      if(!calzados.length)continue;
+      // Rotar calzado evitando choque de color con el torso; si todos chocan, usar el que toca igual.
+      let cz=null;
+      for(let k=0;k<calzados.length;k++){
+        const cand=calzados[(czIdx+k)%calzados.length];
+        if(!colorsClash(t,cand)){ cz=cand; break; }
+      }
+      if(!cz) cz=calzados[czIdx%calzados.length];
+      czIdx++;
+      const key=[t.prenda,p.prenda,cz.prenda].join("|"); if(seen.has(key))continue; seen.add(key);
+      const pieces=[];
+      if(needLayer&&capas[0])pieces.push({slot:"Capa",item:capas[0]});
+      pieces.push({slot:"Torso",item:t}); pieces.push({slot:"Piernas",item:p}); pieces.push({slot:"Calzado",item:cz});
+      // Rotar abrigo también.
+      const abrigo = abrigos.length ? abrigos[abIdx%abrigos.length] : null;
+      abIdx++;
+      out.push({pieces,abrigo,occasion:occ});
+      if(out.length>=6)break;
+    }
+    if(out.length>=6)break;
+  }
+  return out;
+}
+
+/* ---- Gestión inteligente ---- */
+function findRedundant(items){
+  const a=items.filter(isActive),groups={};
+  a.forEach(it=>{const k=slotOf(it)+"|"+norm(it.color);(groups[k]=groups[k]||[]).push(it);});
+  const out=[];
+  Object.values(groups).forEach(g=>{ if(g.length>=3){ const w=g.sort((x,y)=>x.versatilidad-y.versatilidad)[0]; out.push({ttl:`${w.prenda} (${w.marca})`,why:`Tenés ${g.length} prendas similares en ${w.categoria.toLowerCase()} color ${w.color.toLowerCase()}. Esta es la de menor versatilidad.`}); } });
+  return out.slice(0,3);
+}
+function findGaps(items){
+  const a=items.filter(isActive),gaps=[];
+  if(a.filter(it=>slotOf(it)==="torso"&&/camisa/.test(norm(it.prenda))&&/blanc/.test(norm(it.color))).length===0) gaps.push({ttl:"Camisa Oxford blanca lisa",why:"No tenés camisa blanca lisa. Es la base de smart casual y oficina."});
+  if(a.filter(it=>slotOf(it)==="piernas"&&/chino/.test(norm(it.prenda))).length<2) gaps.push({ttl:"Segundo chino (navy o arena)",why:"Solo tenés un chino. Un segundo neutro duplica tus combinaciones de oficina."});
+  if(a.filter(it=>slotOf(it)==="calzado"&&/blanc/.test(norm(it.color))&&!/gum/.test(norm(it.color))).length===0) gaps.push({ttl:"Zapatilla de cuero blanca (court)",why:"Puente entre casual y smart casual, más prolija que tus Vans/Converse."});
+  return gaps.slice(0,3);
+}
+
+/* ---- Render ---- */
+const $=s=>document.querySelector(s);
+let STATE={items:[],occasion:"oficina"};
+function renderFilters(){
+  const nav=$("#filters"); nav.innerHTML="";
+  const keys=[...Object.keys(OCCASIONS),"gestion"];
+  const labels={...Object.fromEntries(Object.entries(OCCASIONS).map(([k,v])=>[k,v.label.split(" ")[0]])),gestion:"Gestión"};
+  keys.forEach(k=>{ const c=document.createElement("button"); c.className="chip"+(k===STATE.occasion?" active":""); c.textContent=labels[k]; c.onclick=()=>{STATE.occasion=k;renderFilters();renderContent();}; nav.appendChild(c); });
+}
+function pieceRow(slot,it){ return `<div class="piece-row"><span class="piece-cat">${slot}</span><span class="piece-name">${it.prenda}</span><span class="piece-meta">· ${it.marca||"s/marca"} · ${it.color}</span></div>`; }
+function renderContent(){
+  const c=$("#content");
+  if(STATE.occasion==="gestion"){
+    const gaps=findGaps(STATE.items),red=findRedundant(STATE.items);
+    c.innerHTML=`<div class="advice"><h3>Comprar para completar</h3>${gaps.length?gaps.map(g=>`<div class="advice-item"><div class="ttl">${g.ttl}</div><div class="why">${g.why}</div></div>`).join(""):`<div class="advice-item"><div class="why">Sin huecos detectados.</div></div>`}<h3>Posibles redundancias</h3>${red.length?red.map(r=>`<div class="advice-item remove"><div class="ttl">${r.ttl}</div><div class="why">${r.why}</div></div>`).join(""):`<div class="advice-item"><div class="why">Sin redundancias claras.</div></div>`}</div>`;
+    return;
+  }
+  const outfits=buildOutfits(STATE.items,STATE.occasion);
+  if(!outfits.length){ c.innerHTML=`<div class="state"><p>No hay prendas suficientes para esta ocasión.</p></div>`; return; }
+  c.innerHTML=outfits.map((o,i)=>`<div class="outfit" style="animation-delay:${i*.04}s"><span class="outfit-tag">${OCCASIONS[o.occasion].label}</span>${o.pieces.map(p=>pieceRow(p.slot,p.item)).join("")}<div class="layer-flag"><span>Abrigo:</span><strong>${o.abrigo?`${o.abrigo.prenda} (${o.abrigo.marca})`:"—"}</strong></div></div>`).join("");
+}
+function renderMeta(){ const act=STATE.items.filter(isActive).length; $("#meta").textContent=`${act} prendas activas · ${STATE.items.length} en total`; }
+
+/* ---- Carga de datos (localStorage en vez de chrome.storage) ---- */
+async function loadData(force=false){
+  const url=localStorage.getItem(SETTINGS_KEY);
+  if(!url){ showSettings(true); showNeedsConfig(); return; }
+  $("#refresh").classList.add("spinning");
+  try{
+    if(!force){
+      const raw=localStorage.getItem(CACHE_KEY);
+      if(raw){ const cached=JSON.parse(raw); if(Date.now()-cached.ts<864e5){ STATE.items=cached.items; renderFilters();renderContent();renderMeta(); $("#refresh").classList.remove("spinning"); return; } }
+    }
+    const res=await fetch(url,{cache:"no-store"}); if(!res.ok)throw new Error("HTTP "+res.status);
+    const text=await res.text(); const items=extractInventory(parseCSV(text));
+    if(!items.length)throw new Error("No se encontró inventario en la hoja.");
+    STATE.items=items; localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),items}));
+    renderFilters();renderContent();renderMeta();
+  }catch(e){
+    $("#content").innerHTML=`<div class="state"><p>No se pudo leer la hoja.<br><span style="color:var(--text-faint)">${e.message}</span></p><button class="btn-primary" id="retry">Reintentar</button></div>`;
+    $("#retry").onclick=()=>loadData(true);
+  }finally{ $("#refresh").classList.remove("spinning"); }
+}
+function showNeedsConfig(){ $("#content").innerHTML=`<div class="state"><p>Configurá la URL de tu hoja publicada para empezar.</p><button class="btn-primary" id="cfg">Configurar</button></div>`; $("#cfg").onclick=()=>showSettings(true); }
+function showSettings(show){ const m=$("#settings"); if(show){ $("#csv-url").value=localStorage.getItem(SETTINGS_KEY)||""; m.hidden=false; } else m.hidden=true; }
+
+document.addEventListener("DOMContentLoaded",()=>{
+  loadData();
+  $("#refresh").onclick=()=>loadData(true);
+  $("#settings-btn").onclick=()=>showSettings(true);
+  $("#close-settings").onclick=()=>showSettings(false);
+  $("#save-url").onclick=()=>{ const u=$("#csv-url").value.trim(); if(!u)return; localStorage.setItem(SETTINGS_KEY,u); localStorage.removeItem(CACHE_KEY); showSettings(false); loadData(true); };
+});
+
+/* ---- PWA: registrar service worker + prompt de instalación ---- */
+if("serviceWorker" in navigator){ window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt=e; $("#install-banner").classList.add("show"); });
+document.getElementById("install-btn").onclick=async()=>{ if(!deferredPrompt)return; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; $("#install-banner").classList.remove("show"); };
+window.addEventListener("appinstalled",()=>$("#install-banner").classList.remove("show"));
+</script>
+</body>
+</html>
