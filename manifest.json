@@ -1,25 +1,13 @@
 {
-  "name": "Cápsula — Outfits",
-  "short_name": "Cápsula",
-  "description": "Genera outfits a partir de tu inventario minimalista en Google Sheets (Vestuario_Plan).",
-  "start_url": "./index.html",
+  "name": "Guía de combinaciones de color",
+  "short_name": "Mi Estilo",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#16181c",
-  "theme_color": "#16181c",
+  "background_color": "#1a1c1f",
+  "theme_color": "#1a1c1f",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
