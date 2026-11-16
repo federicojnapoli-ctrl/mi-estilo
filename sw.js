@@ -1,4 +1,4 @@
-const CACHE = "mi-estilo-v7";
+const CACHE = "mi-estilo-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,12 +26,18 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
-  // El manifest SIEMPRE se pide a la red: nunca cacheado, para que Chrome lea cambios de id.
-  if (url.pathname.endsWith("manifest.json")) {
-    e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-    return;
-  }
+  if (url.origin !== self.location.origin) return;
+  // Red primero: con conexión siempre se ve la última versión publicada,
+  // sin depender de cambiar este archivo. Sin conexión, se usa la copia guardada.
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+    fetch(e.request, { cache: "no-cache" })
+      .then(res => {
+        if (res && res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+        }
+        return res;
+      })
+      .catch(() => caches.match(e.request).then(r => r || caches.match("./index.html")))
   );
 });
