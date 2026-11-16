@@ -1,0 +1,953 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Vestuario Federico</title>
+<meta name="theme-color" content="#ECEDEF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vestuario"></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,400;500&display=swap">
+<style>
+  /* Layout: nav pegajosa arriba, cuatro vistas en una columna central de 880px */
+  :root{
+    --paper:#ECEDEF; --card:#F7F7F8; --ink:#15181E; --ink-soft:#5B626D;
+    --rule:#D2D5DA; --accent:#27354F; --brass:#8F6B3C;
+    --si:#3F7A5E; --no:#9A4A46; --warn:#8A6A2E; --mute:#6B7280;
+    --navbg:rgba(236,237,239,.93);
+    --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+    --body:"Newsreader",Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#141619; --card:#1C1F24; --ink:#E8E9EC; --ink-soft:#9AA1AC;
+      --rule:#2E333A; --accent:#A8BBDD; --brass:#C79E63;
+      --si:#6FB68F; --no:#D18B86; --warn:#D3B06A; --mute:#8B929C;
+      --navbg:rgba(20,22,25,.93); color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#141619; --card:#1C1F24; --ink:#E8E9EC; --ink-soft:#9AA1AC;
+    --rule:#2E333A; --accent:#A8BBDD; --brass:#C79E63;
+    --si:#6FB68F; --no:#D18B86; --warn:#D3B06A; --mute:#8B929C;
+    --navbg:rgba(20,22,25,.93); color-scheme:dark;
+  }
+
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding-inline:20px;padding-block:0 72px;}
+
+  /* nav */
+  nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+      background:var(--navbg);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule);}
+  .navinner{max-width:880px;margin:0 auto;padding-inline:20px;display:flex;gap:2px;overflow-x:auto;}
+  nav button{appearance:none;background:none;border:none;cursor:pointer;color:var(--ink-soft);
+    font-family:var(--display);font-weight:600;font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;
+    padding:15px 12px 13px;border-bottom:2px solid transparent;white-space:nowrap;}
+  nav button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brass);}
+  nav button:focus-visible{outline:2px solid var(--accent);outline-offset:-4px;}
+
+  .eyebrow{font-family:var(--display);font-weight:600;font-size:.7rem;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--brass);margin:38px 0 12px;}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(1.9rem,5.5vw,2.8rem);line-height:1.06;
+     letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance;}
+  .lede{font-size:1.05rem;color:var(--ink-soft);max-width:62ch;margin:0;}
+
+  h2{font-family:var(--display);font-weight:700;font-size:1.18rem;letter-spacing:-.01em;
+     margin:50px 0 4px;padding-top:22px;border-top:1px solid var(--rule);}
+  .sub{margin:0 0 18px;color:var(--ink-soft);font-size:.97rem;max-width:62ch;}
+
+  .panel{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:20px;}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:16px;}
+  .cols>*{min-width:0;}
+  figure{margin:0;} figure svg{width:100%;height:auto;max-width:100%;display:block;}
+  figcaption,.cap{font-family:var(--display);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;
+             color:var(--ink-soft);margin-top:8px;text-align:center;}
+  .verdict{font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.13em;
+           text-transform:uppercase;display:inline-block;margin-bottom:8px;}
+  .v-si{color:var(--si);} .v-no{color:var(--no);} .v-w{color:var(--warn);} .v-b{color:var(--brass);}
+
+  .pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:14px;}
+  .pair{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:15px 13px;text-align:center;}
+  .pair p{margin:8px 0 0;font-size:.89rem;color:var(--ink-soft);}
+
+  .swatchgrid{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0;padding:0;list-style:none;}
+  .swatchgrid li{display:flex;align-items:center;gap:7px;font-family:var(--display);
+                 font-size:.72rem;letter-spacing:.03em;color:var(--ink-soft);}
+  .chipc{width:24px;height:24px;border-radius:2px;border:1px solid rgba(128,128,128,.4);flex:none;position:relative;}
+  .chipc.x::after{content:"";position:absolute;inset:-1px;
+    background:linear-gradient(to top right,transparent 46%,var(--no) 46%,var(--no) 54%,transparent 54%);}
+  .grouptitle{font-family:var(--display);font-weight:600;font-size:.68rem;letter-spacing:.13em;
+              text-transform:uppercase;color:var(--accent);margin:0;}
+
+  .scale{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:20px;}
+  .note{font-size:.96rem;margin:14px 0 0;}
+  .note b{font-family:var(--display);font-weight:600;font-size:.65rem;letter-spacing:.12em;
+          text-transform:uppercase;color:var(--accent);margin-right:7px;}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+         background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
+  .stats div{background:var(--card);padding:16px 18px;}
+  .stats .big{font-family:var(--display);font-weight:700;font-size:1.9rem;line-height:1;
+              letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block;}
+  .stats .lbl{font-family:var(--display);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+              color:var(--ink-soft);display:block;margin-top:7px;}
+
+  /* filtros e inventario */
+  .filters{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 14px;}
+  .filters button{appearance:none;cursor:pointer;background:var(--card);border:1px solid var(--rule);
+    border-radius:999px;padding:6px 13px;color:var(--ink-soft);
+    font-family:var(--display);font-weight:600;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .filters button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .catname{font-family:var(--display);font-weight:600;font-size:.66rem;letter-spacing:.14em;
+           text-transform:uppercase;color:var(--brass);margin:26px 0 8px;}
+  .item{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:12px;
+        background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:11px 13px;margin-bottom:6px;}
+  .item .sw{width:18px;height:18px;border-radius:2px;border:1px solid rgba(128,128,128,.45);margin-top:3px;flex:none;}
+  .item .nm{font-family:var(--display);font-weight:600;font-size:.93rem;display:block;}
+  .item .meta{font-family:var(--display);font-size:.66rem;letter-spacing:.06em;color:var(--mute);
+              text-transform:uppercase;display:block;margin-top:2px;}
+  .item .why{font-size:.9rem;color:var(--ink-soft);margin:5px 0 0;}
+  .badge{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;
+         border:1px solid currentColor;border-radius:999px;padding:3px 9px;white-space:nowrap;margin-top:2px;}
+  .b-core{color:var(--si);} .b-keep{color:var(--accent);} .b-fit{color:var(--warn);}
+  .b-sport{color:var(--mute);} .b-out{color:var(--no);}
+
+  /* plan */
+  .uni{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:16px 18px;}
+  .uni h3{font-family:var(--display);font-weight:700;font-size:1.02rem;margin:0 0 3px;letter-spacing:-.01em;}
+  .uni .when{font-family:var(--display);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+             color:var(--brass);display:block;margin-bottom:9px;}
+  .uni ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;}
+  .uni li{display:flex;align-items:center;gap:9px;font-size:.93rem;}
+  .uni li i{width:14px;height:14px;border-radius:2px;border:1px solid rgba(128,128,128,.45);flex:none;}
+  .uni .tip{margin:11px 0 0;padding-top:10px;border-top:1px solid var(--rule);
+            font-size:.88rem;color:var(--ink-soft);}
+
+  .month{background:var(--card);border:1px solid var(--rule);border-radius:4px;
+         padding:17px 19px;margin-bottom:10px;}
+  .month.now{border-color:var(--brass);border-width:2px;}
+  .month-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;margin-bottom:7px;}
+  .mnum{font-family:var(--display);font-weight:700;font-size:.64rem;letter-spacing:.13em;
+        text-transform:uppercase;color:var(--brass);}
+  .month-head h3{font-family:var(--display);font-weight:600;font-size:1.06rem;margin:0;
+                 letter-spacing:-.01em;flex:1 1 auto;min-width:0;}
+  .month p{margin:0;font-size:.94rem;}
+  .month .unlock{margin:9px 0 0;padding-top:9px;border-top:1px solid var(--rule);
+                 font-size:.89rem;color:var(--ink-soft);}
+  .month .unlock b{font-family:var(--display);font-weight:600;font-size:.62rem;letter-spacing:.12em;
+                   text-transform:uppercase;color:var(--si);margin-right:7px;}
+  .spec{font-family:var(--display);font-size:.72rem;letter-spacing:.03em;color:var(--mute);
+        display:block;margin-top:4px;}
+
+
+  .chk{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-size:.7rem;letter-spacing:.06em;
+       color:var(--mute);cursor:pointer;margin-left:auto;padding:4px 0;}
+  .chk input{width:18px;height:18px;accent-color:var(--brass);cursor:pointer;margin:0;}
+  .rank li .chk{margin:8px 0 0;display:flex;}
+  .rank .d{display:block;margin-top:3px;}
+  .rank .k{font-family:var(--display);font-weight:600;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--si);margin-right:6px;display:inline;}
+  .month.done,.rank li.done{opacity:.5;}
+  .month.done h3,.rank li.done b:first-child{text-decoration:line-through;}
+  .month.done .month-head{margin-bottom:0;}
+  h2.lgroup{margin-top:34px;}
+  .seasons{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+  .seasons button{font-family:var(--display);font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    padding:9px 15px;border:1px solid var(--rule);border-radius:999px;background:var(--card);color:var(--ink-soft);cursor:pointer;}
+  .seasons button.on{border:2px solid var(--brass);padding:8px 14px;color:var(--ink);}
+  .drawers{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;}
+  .drawer{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:15px 16px;}
+  .drawer h4{font-family:var(--display);font-weight:700;font-size:.92rem;margin:0 0 5px;}
+  .drawer p{margin:0;font-size:.88rem;color:var(--ink-soft);}
+
+  /* estilos */
+  .styles{display:grid;gap:14px;}
+  .style{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:18px 20px;}
+  .style.hero{border-color:var(--brass);border-width:2px;}
+  .style-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px;}
+  .style-head h3{font-family:var(--display);font-weight:700;font-size:1.12rem;letter-spacing:-.01em;
+                 margin:0;flex:1 1 auto;min-width:0;}
+  .style .def{margin:6px 0 0;font-size:.97rem;}
+  .style .look-like{margin:9px 0 0;font-size:.92rem;color:var(--ink-soft);}
+  .style .look-like b{font-family:var(--display);font-weight:600;font-size:.63rem;letter-spacing:.12em;
+                      text-transform:uppercase;color:var(--accent);margin-right:7px;}
+  .style .verd{margin:11px 0 0;padding-top:11px;border-top:1px solid var(--rule);font-size:.93rem;}
+  .style .verd b{font-family:var(--display);font-weight:600;font-size:.63rem;letter-spacing:.12em;
+                 text-transform:uppercase;margin-right:7px;}
+  .meter{display:flex;gap:3px;align-items:center;flex:none;}
+  .meter i{width:13px;height:7px;border-radius:1px;background:var(--rule);display:block;}
+  .meter i.on{background:var(--brass);}
+  .meter span{font-family:var(--display);font-weight:600;font-size:.6rem;letter-spacing:.11em;
+              text-transform:uppercase;color:var(--ink-soft);margin-left:5px;}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0 0;}
+  .chips i{display:block;width:20px;height:20px;border-radius:2px;border:1px solid rgba(128,128,128,.4);}
+
+  /* looks */
+  .look{background:var(--card);border:1px solid var(--rule);border-radius:4px;margin-top:18px;overflow:hidden;}
+  .look-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;padding:17px 20px 0;}
+  .num{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.1em;color:var(--brass);
+       font-variant-numeric:tabular-nums;}
+  .look-head h3{font-family:var(--display);font-weight:600;font-size:1.15rem;letter-spacing:-.01em;
+                margin:0;flex:1 1 auto;min-width:0;}
+  .tag{font-family:var(--display);font-weight:600;font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+       color:var(--ink-soft);border:1px solid var(--rule);border-radius:999px;padding:3px 10px;white-space:nowrap;}
+  .rack{display:flex;flex-wrap:wrap;gap:4px;padding:12px 20px 4px;}
+  .piece{flex:1 1 82px;max-width:130px;min-width:0;text-align:center;}
+  .piece svg{width:100%;height:auto;display:block;}
+  .piece .pl{display:block;font-family:var(--display);font-size:.62rem;line-height:1.3;
+             letter-spacing:.02em;color:var(--ink-soft);margin-top:2px;}
+  .own{display:inline-block;font-family:var(--display);font-weight:700;font-size:.56rem;letter-spacing:.08em;
+       text-transform:uppercase;margin-top:3px;}
+  .own.y{color:var(--si);} .own.n{color:var(--brass);}
+  .layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;
+          margin:10px 20px 0;padding-top:12px;border-top:1px solid var(--rule);}
+  .layer{display:flex;align-items:center;gap:11px;min-width:0;}
+  .layer figure{width:42px;flex:none;}
+  .layer figure svg{width:100%;height:auto;display:block;}
+  .layer .lt{min-width:0;}
+  .layer .lk{display:block;font-family:var(--display);font-weight:700;font-size:.58rem;
+             letter-spacing:.12em;text-transform:uppercase;color:var(--brass);}
+  .layer .ln{display:block;font-size:.89rem;line-height:1.35;}
+
+  .notes{padding:4px 20px 18px;display:grid;gap:7px;}
+  .notes p{margin:0;font-size:.95rem;}
+  .notes b{font-family:var(--display);font-weight:600;font-size:.64rem;letter-spacing:.12em;
+           text-transform:uppercase;color:var(--accent);margin-right:7px;}
+
+  .rank{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:r;}
+  .rank li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;
+           background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:12px 14px;}
+  .rank li::before{counter-increment:r;content:counter(r,decimal-leading-zero);
+    font-family:var(--display);font-weight:700;font-size:.72rem;color:var(--brass);font-variant-numeric:tabular-nums;}
+  .rank b{font-family:var(--display);font-weight:600;font-size:.95rem;display:block;}
+  .rank .d{font-size:.88rem;color:var(--ink-soft);}
+  .rank em{font-style:normal;font-family:var(--display);font-size:.61rem;letter-spacing:.11em;
+           text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;}
+  footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--rule);color:var(--ink-soft);font-size:.9rem;}
+  @media (max-width:420px){ .piece{flex:1 1 70px;} }
+</style>
+
+<nav>
+  <div class="navinner" role="tablist" id="nav">
+    <button role="tab" data-v="looks" aria-selected="true">Combinaciones</button>
+    <button role="tab" data-v="compras" aria-selected="false">Compras</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ESTILOS -->
+  <section id="v-looks">
+    <div class="seasons" id="seasons">
+      <button type="button" data-s="v">Verano</button>
+      <button type="button" data-s="m">Media estación</button>
+      <button type="button" data-s="i">Invierno</button>
+    </div>
+    <p class="sub" id="season-note"></p>
+
+    <div id="looks"></div>
+  </section>
+
+  <!-- COMPRAS -->
+  <section id="v-compras" hidden>
+    <p class="eyebrow">Qué incorporar</p>
+    <h1>La lista</h1>
+    <p class="lede">Plan revisado por temporada: para lo que queda de 2026 el foco es verano liviano (chino claro, pantalón de lino, camisa de lino), accesorios que dan el toque rockero sin abrigar y el perfume que funciona con calor. Sin shorts: con las medias altas, el verano va con pantalón largo liviano. Las botas, el trucker, el merino, el beanie y el Fahrenheit pasan al otoño-invierno. Cada prenda trae lo que tiene que cumplir sí o sí: si una publicación no cumple todo, no sirve, aunque sea más barata.</p>
+
+    <div class="panel" style="margin-bottom:6px"><p class="note" id="avance" style="margin:0"></p></div>
+
+    <div class="panel" style="margin:12px 0 6px">
+      <p class="note" style="margin:0"><b>Calendario de compras</b>
+        <b>Black Friday:</b> viernes 27 de noviembre, con ofertas que suelen seguir el 28 y el 29. No tiene organizador oficial: cada marca decide si entra. Mirá los sitios oficiales y las tiendas oficiales de Mercado Libre del 23 al 30 de noviembre.<br>
+        <b>Liquidación de verano:</b> desde principios de enero, más fuerte en febrero.<br>
+        <b>Otoño-invierno:</b> marzo y abril llegan a precio lleno, pero con mejor surtido de talles en botas y camperas.<br>
+        <b>Hot Sale 2027:</b> mayo, fecha a confirmar (en 2026 fue del 11 al 13 de mayo).<br>
+        <b>Liquidación de invierno:</b> mediados de julio y agosto.<br>
+        <b>CyberMonday 2027:</b> principios de noviembre, fecha a confirmar.</p>
+    </div>
+    <div class="panel" style="margin:6px 0 6px">
+      <p class="note" style="margin:0"><b>Cómo comprar en Black Friday</b>Del 16 al 26 de noviembre anotá el precio de lista de cada ítem, así sabés si el descuento del 27 es real. Por debajo de 20% de descuento no vale la pena apurarse. En Mercado Libre comprá solo en tiendas oficiales: la ley de defensa del consumidor da 10 días corridos para revocar la compra desde que recibís el producto.</p>
+    </div>
+
+    <h2>Ahora o Black Friday</h2>
+    <p class="sub">Lo primero de la lista. Al marcar una como comprada se achica y baja al final.</p>
+    <div id="meses"></div>
+
+    <h2>Ahora o en enero</h2>
+    <p class="sub">Si sobra presupuesto, ahora; si no, en la liquidación de enero.</p>
+    <ol class="rank" id="compras-b"></ol>
+
+    <h2>Para después: marzo y otoño-invierno</h2>
+    <p class="sub">Se compran por temporada: la mayoría conviene en el Hot Sale de mayo o en la liquidación de julio. Las fechas de 2027 son estimaciones.</p>
+    <ol class="rank" id="compras-acc"></ol>
+
+    <h2>Ya comprado</h2>
+    <ol class="rank" id="comprado"></ol>
+
+    <h2>Qué no volver a comprar</h2>
+    <p class="sub">Los patrones que ya se repiten de más en tu inventario.</p>
+    <div class="pairs" id="evitar"></div>
+
+    <footer>Las marcas son referencias de nivel y estilo, no certeza de stock ni de precio. Los precios son de noviembre de 2026 y pueden incluir promociones viejas: revisalos y confirmá disponibilidad y talle antes de comprar.</footer>
+  </section>
+</div>
+
+<script>
+(function(){
+  var ST='stroke="rgba(120,124,132,.6)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"';
+  function el(id){return document.getElementById(id);}
+  function svg(vb,inner){return '<svg viewBox="'+vb+'" xmlns="http://www.w3.org/2000/svg" role="img">'+inner+'</svg>';}
+  function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+
+  /* ============ NAV ============ */
+  var views=["looks","compras"];
+  function show(v){
+    if(views.indexOf(v)<0) v="looks";
+    views.forEach(function(x){ el("v-"+x).hidden = (x!==v); });
+    Array.prototype.forEach.call(el("nav").children,function(b){
+      b.setAttribute("aria-selected", b.dataset.v===v ? "true":"false");
+    });
+    try{ if(location.hash.replace("#","")!==v) history.replaceState(null,"","#"+v); }catch(e){}
+    window.scrollTo(0,0);
+  }
+  el("nav").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(b) show(b.dataset.v);
+  });
+
+  /* ============ LOOKS ============ */
+  var C={blanco:"#FFFFFF",offwhite:"#F0EDE6",gris:"#8A9099",greige:"#A9A396",carbon:"#34383E",
+    negro:"#1A1C1F",navy:"#22304C",denimOsc:"#2B3E5E",denimMed:"#5B7CA6",arena:"#CBB89A",
+    camel:"#B0844E",oliva:"#4B5040",botella:"#2A4539",burdeos:"#6B3440",cuero:"#5A3A28",grisJasp:"#6E747C"};
+  function f(c){return 'fill="'+c+'" '+ST;}
+  function ln(d){return '<path d="'+d+'" fill="none" stroke="rgba(120,124,132,.5)" stroke-width="1.3"/>';}
+  var DRAW={
+    tee:function(c){return svg("0 0 100 100",'<path d="M36,14 L46,10 Q50,16 54,10 L64,14 L80,23 L73,36 L67,31 L67,86 Q50,90 33,86 L33,31 L27,36 L20,23 Z" '+f(c)+'/>'+ln("M46,10 Q50,17 54,10"));},
+    camisa:function(c){return svg("0 0 100 100",'<path d="M36,14 L45,10 L55,10 L64,14 L80,23 L73,37 L67,32 L67,88 L33,88 L33,32 L27,37 L20,23 Z" '+f(c)+'/>'+ln("M45,10 L50,20 L44,16")+ln("M55,10 L50,20 L56,16")+ln("M50,22 L50,88"));},
+    sobrecamisa:function(c){return svg("0 0 100 104",'<path d="M34,15 L46,10 L54,10 L66,15 L82,25 L74,40 L68,34 L68,94 L32,94 L32,34 L26,40 L18,25 Z" '+f(c)+'/>'+ln("M50,12 L50,94")+ln("M38,42 L44,42")+ln("M56,42 L62,42"));},
+    merino:function(c){return svg("0 0 100 100",'<path d="M36,14 L46,10 Q50,16 54,10 L64,14 L84,28 L78,64 L68,60 L68,88 Q50,92 32,88 L32,60 L22,64 L16,28 Z" '+f(c)+'/>'+ln("M46,10 Q50,17 54,10")+ln("M32,84 L68,84"));},
+    cuelloalto:function(c){return svg("0 0 100 100",'<rect x="42" y="4" width="16" height="12" rx="3" '+f(c)+'/><path d="M36,15 L44,11 L56,11 L64,15 L84,29 L78,65 L68,61 L68,89 Q50,93 32,89 L32,61 L22,65 L16,29 Z" '+f(c)+'/>');},
+    blazer:function(c){return svg("0 0 100 104",'<path d="M34,14 L46,9 L50,26 L54,9 L66,14 L84,26 L77,44 L70,38 L70,96 L52,96 L50,30 L48,96 L30,96 L30,38 L23,44 L16,26 Z" '+f(c)+'/>'+ln("M46,9 L50,28 L42,20")+ln("M54,9 L50,28 L58,20"));},
+    bomber:function(c){return svg("0 0 100 100",'<path d="M34,15 L44,11 L56,11 L66,15 L84,27 L77,44 L70,38 L70,88 L30,88 L30,38 L23,44 L16,27 Z" '+f(c)+'/><rect x="30" y="88" width="40" height="7" rx="2" '+f(c)+'/><rect x="42" y="7" width="16" height="7" rx="3" '+f(c)+'/>'+ln("M50,15 L50,88"));},
+    campera:function(c){return svg("0 0 100 104",'<path d="M34,15 L44,10 L56,10 L66,15 L84,28 L77,46 L70,40 L70,94 L30,94 L30,40 L23,46 L16,28 Z" '+f(c)+'/>'+ln("M50,12 L50,94")+ln("M34,50 L44,50")+ln("M56,50 L66,50"));},
+    pantalon:function(c){return svg("0 0 100 118",'<path d="M31,6 L69,6 L72,40 L69,112 L56,112 L50,56 L44,112 L31,112 L28,40 Z" '+f(c)+'/><rect x="31" y="6" width="38" height="7" '+f(c)+'/>');},
+    jean:function(c){return svg("0 0 100 118",'<path d="M31,6 L69,6 L72,40 L69,112 L56,112 L50,56 L44,112 L31,112 L28,40 Z" '+f(c)+'/><rect x="31" y="6" width="38" height="7" '+f(c)+'/>'+ln("M34,16 L40,24")+ln("M66,16 L60,24"));},
+    zapatilla:function(c){return svg("0 0 100 86",'<path d="M10,60 Q12,44 24,43 L40,43 L58,52 L80,58 Q89,61 89,69 L89,74 L10,74 Z" '+f(c)+'/><rect x="9" y="72" width="81" height="7" rx="3" fill="#EDEDED" '+ST+'/>'+ln("M40,44 L46,60"));},
+    zapato:function(c){return svg("0 0 100 86",'<path d="M12,60 Q14,46 26,45 L42,45 L62,54 L82,60 Q90,63 90,71 L90,75 L12,75 Z" '+f(c)+'/><rect x="11" y="74" width="80" height="5" rx="2" fill="#3A3330" '+ST+'/>'+ln("M42,46 L50,60"));},
+    botineta:function(c){return svg("0 0 100 86",'<path d="M16,30 L46,30 L48,52 L72,60 Q88,64 88,72 L88,76 L16,76 Z" '+f(c)+'/><rect x="15" y="75" width="74" height="6" rx="2" fill="#3A3330" '+ST+'/>'+ln("M46,32 L46,56"));}
+  };
+
+  C.denimClaro="#6E8CB4"; C.vichy="#E8E4DA"; C.cuadros="#3E5C86"; C.rayada="#A8BBD4";
+  C.palermo="#F5F2EC"; C.vlcourt="#3E5C86"; C.vans="#2B3E5E";
+
+  DRAW.polo=function(c){
+    return svg("0 0 100 100",'<path d="M36,14 L46,10 L54,10 L64,14 L80,23 L73,36 L67,31 L67,86 Q50,90 33,86 L33,31 L27,36 L20,23 Z" '+f(c)+'/>'
+      +ln("M46,10 L50,22 L54,10")+ln("M50,22 L50,34"));
+  };
+
+  DRAW.short=function(c){return svg("0 0 100 76",'<path d="M31,6 L69,6 L72,30 L70,64 L55,64 L50,34 L45,64 L30,64 L28,30 Z" '+f(c)+'/><rect x="31" y="6" width="38" height="7" '+f(c)+'/>');};
+
+  var CAPAS={
+    brooksfield:["merino","gris","Sweater V-neck Brooksfield gris"],
+    crewneck:["merino","negro","Crewneck negro liso"],
+    chambray:["camisa","denimMed","Camisa chambray Levi's, abierta"],
+    equus:["bomber","negro","Bomber ligera Equus"],
+    cuero:["campera","cuero","Bomber de cuero A-2 Tommy"],
+    puffer:["campera","negro","Puffer ColdGear Under Armour"],
+    columbia:["campera","carbon","Impermeable Omni-Tech Columbia"]
+  };
+
+  CAPAS.adidas=["merino","negro","Crewneck adidas trébol (casa)"];
+  CAPAS.fleece=["campera","negro","Polar half-zip Columbia"];
+
+  var looksNuevos=[
+    {g:"Día a día",n:"01",name:"Blanco sobre índigo",tag:"Diario",
+     items:[["tee","offwhite","Henley Pima blanca"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"crewneck",cg:"cuero",
+     why:"Tu mejor conjunto posible hoy, y es puro casual: henley, jean y zapatilla. El blanco cerca de la cara te ilumina.",
+     det:"Henley por fuera, los dos botones de arriba abiertos. Si refresca, el crewneck negro encima; si hace frío, el cuero."},
+
+    {g:"Día a día",n:"02",name:"Gris medio",tag:"Diario",
+     items:[["tee","gris","T-shirt Levi's gris"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","vlcourt","adidas VL Court"]],
+     cl:"chambray",cg:"cuero",
+     why:"Gris, índigo y azul: tres tonos que se escalonan solos. El más fácil de acertar sin pensar.",
+     det:"La chambray va abierta como si fuera campera, manga remangada dos vueltas."},
+
+    {g:"Día a día",n:"03",name:"Negro con quiebre",tag:"Diario",
+     items:[["tee","negro","T-shirt Pima negra"],["jean","denimClaro","Jean Levi's azul claro"],["zapatilla","negro","Reebok negra"]],
+     cl:"equus",cg:"puffer",
+     why:"El jean claro rompe el negro. Sin él serían tres oscuros seguidos y te apagaría la cara.",
+     det:"Es el único conjunto donde el jean claro gana. Sumale el beanie Montagne en invierno."},
+
+    {g:"Día a día",n:"04",name:"Oliva y blanco",tag:"Diario",
+     items:[["tee","offwhite","Henley Pima blanca"],["pantalon","oliva","Chino verde militar"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"cuero",
+     why:"Oliva abajo y blanco arriba: el conjunto respira y el verde queda lejos de la cara.",
+     det:"La Equus negra es la capa liviana correcta acá: una campera de color competiría con el oliva."},
+
+    {g:"Día a día",n:"05",name:"Henley verde",tag:"Diario",
+     items:[["tee","oliva","Henley Herencia verde militar"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","negro","Reebok negra"]],
+     cl:"equus",cg:"puffer",
+     why:"El verde arriba solo funciona en henley: la botonadura corta el bloque de color antes de llegar a la cara.",
+     det:"Dos botones abiertos. Cerrada hasta el cuello, el verde se empasta con la barba."},
+
+    {g:"Día a día",n:"06",name:"Blanco y oliva",tag:"Fin de semana",
+     items:[["tee","blanco","Remera blanca de algodón"],["pantalon","oliva","Chino verde militar"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"crewneck",cg:"puffer",
+     why:"La versión más suelta del 04. Con la remera lisa en lugar de la Jordan, el mismo conjunto sube un escalón.",
+     det:"Con gorra adidas oliva queda redondo. La Jordan queda para casa."},
+
+    {g:"Día a día",n:"24",name:"Blanca y jean oscuro",tag:"Diario",
+     items:[["tee","blanco","Remera blanca de algodón"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"chambray",cg:"cuero",
+     why:"Contraste alto con lo mínimo: la remera nueva arriba y el índigo abajo. El conjunto más simple que tenés.",
+     det:"La chambray abierta encima si refresca; el cuero si hace frío."},
+
+    {g:"Día a día",n:"25",name:"Navy sobre claro",tag:"Diario",
+     items:[["tee","navy","Remera navy de algodón"],["jean","denimClaro","Jean Levi\'s azul claro"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"cuero",
+     why:"El navy cerca de la cara te favorece más que el negro, y el jean claro abajo arma el quiebre.",
+     det:"Esta remera no va con el 511 índigo ni con el jean negro: quedan dos azules parecidos y el conjunto se apaga."},
+
+    {g:"Día a día",n:"26",name:"Navy y oliva",tag:"Diario",
+     items:[["tee","navy","Remera navy de algodón"],["pantalon","oliva","Chino verde militar"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"cuero",
+     why:"El oliva queda lejos de la cara y el navy la ilumina. Dos colores que no compiten entre sí.",
+     det:"No le sumes la chambray encima: serían tres tonos oscuros seguidos y el conjunto se apaga."},
+
+    {g:"Salidas con amigos",n:"07",name:"Chambray abierta",tag:"Salidas",
+     items:[["camisa","denimMed","Chambray Levi's, abierta"],["tee","blanco","Remera blanca de algodón"],["pantalon","oliva","Chino verde militar"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"crewneck",cg:"cuero",
+     why:"El conjunto de tus mejores fotos: azul medio, blanco y oliva, con la camisa haciendo de capa.",
+     det:"Camisa abierta, mangas remangadas. Si hace frío, el cuero encima y la chambray queda de segunda capa."},
+
+    {g:"Salidas con amigos",n:"08",name:"Cuadros por fuera",tag:"Salidas",
+     items:[["camisa","cuadros","Camisa cuadros Lacoste"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","vlcourt","adidas VL Court"]],
+     cl:"equus",cg:"cuero",
+     why:"Cuadro azul sobre índigo: misma familia, distinta intensidad. Relajado sin verse descuidado.",
+     det:"Por fuera, primer botón abierto, mangas arremangadas. Si te pasa de media bragueta, abrila sobre una remera negra."},
+
+    {g:"Salidas con amigos",n:"09",name:"Vichy de verano",tag:"Verano",
+     items:[["camisa","vichy","Camisa vichy blanco/negro"],["jean","denimClaro","Jean Levi's azul claro"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"columbia",
+     why:"Manga corta, cuadro chico y blanco cerca de la cara. El más fresco que tenés.",
+     det:"En pleno verano cambiá el jean por la bermuda gris YSL. Solo si el vichy es chico."},
+
+    {g:"Salidas con amigos",n:"10",name:"Doble denim",tag:"Salidas",
+     items:[["camisa","denimMed","Camisa chambray Levi's"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"crewneck",cg:"puffer",
+     why:"Funciona porque los dos azules están bien separados: celeste arriba, índigo oscuro abajo.",
+     det:"Camisa por fuera y arremangada. Si los dos azules se parecen, no lo hagas."},
+
+    {g:"Salidas con amigos",n:"11",name:"Negro y cuero",tag:"Noche",
+     items:[["tee","negro","T-shirt Pima negra"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","negro","Reebok negra"]],
+     cl:"chambray",cg:"cuero",
+     why:"Para salir de noche sin parecer arreglado de más. El cuero marrón es lo que lo levanta.",
+     det:"Sin la chambray o el cuero son tres oscuros seguidos: siempre con una de las dos encima."},
+
+    {g:"Salidas con amigos",n:"43",name:"Negro total de noche",tag:"Noche",
+     items:[["tee","negro","Remera Pima negra"],["jean","negro","Jean negro Polo Club"],["zapatilla","negro","Converse Hi de cuero"]],
+     cl:"chambray",cg:"cuero",
+     why:"El negro total de noche ya es rockero sin agregar nada.",
+     det:"En verano, el jean negro solo de noche: para ensayos o salidas. Con el jean negro, la campera nunca negra."},
+
+    {g:"Trabajo, con zapatilla",n:"12",name:"Navy relajado",tag:"Trabajo",
+     items:[["camisa","navy","Camisa lisa Lacoste navy"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"brooksfield",cg:"columbia",
+     why:"Camisa lisa con jean y zapatilla blanca: prolijo para la oficina sin verse de traje.",
+     det:"Por fuera si termina a media bragueta; si es más larga, por dentro. Mangas arremangadas dos vueltas."},
+
+    {g:"Trabajo, con zapatilla",n:"13",name:"Rayas finas",tag:"Trabajo",
+     items:[["camisa","rayada","Camisa rayada H Stevens"],["pantalon","oliva","Chino verde militar"],["zapatilla","vlcourt","adidas VL Court"]],
+     cl:"brooksfield",cg:"cuero",
+     why:"La raya fina es el único patrón que te sirve cerca de la cara. Con chino y zapatilla queda casual.",
+     det:"El sweater encima con el cuello de la camisa afuera, si hace frío."},
+
+    {g:"Trabajo, con zapatilla",n:"14",name:"Polo liso",tag:"Trabajo",
+     items:[["polo","negro","Polo piqué Old Bridge"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"cuero",
+     why:"Tu polo liso, sin ruido. Con jean y zapatilla blanca sirve para la oficina y para después.",
+     det:"Por fuera, primer botón abierto. Los dos polos con logo del trabajo funcionan igual con este conjunto."},
+
+    {g:"Cerca de casa",n:"15",name:"Chino navy para el barrio",tag:"Barrio",
+     items:[["tee","gris","T-shirt Levi's gris"],["pantalon","navy","Chino navy (a comprar)"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"equus",cg:"puffer",
+     why:"Reemplaza al jogger de frisa para ir al súper o al café. El chino es igual de cómodo con elástico, y el contraste gris claro sobre navy oscuro se lee ordenado.",
+     det:"Remera lisa sin logo y zapatilla blanca limpia. Hasta que llegue el chino navy, usá el chino oliva con la misma remera. Beanie en invierno."},
+
+    {g:"Cerca de casa",n:"16",name:"Home office",tag:"Casa · cámara",
+     items:[["tee","gris","Remera lisa de algodón"],["pantalon","gris","Jogger gris Montagne"],["zapatilla","negro","Crocs o descalzo"]],
+     cl:"adidas",cg:"fleece",
+     why:"De la cintura para arriba estás presentable, que es lo único que ve la cámara.",
+     det:"Remera lisa, sin logo. Si hay reunión importante, ponete la camisa navy del 12 encima y listo."},
+
+    {g:"Rock clásico",n:"17",name:"Henley, beanie y cuero",tag:"Salidas",
+     items:[["tee","oliva","Henley Herencia verde militar"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","negro","Converse Hi de cuero"]],
+     cl:"equus",cg:"cuero",
+     why:"Las Converse altas son la pieza rock; el resto es tu henley de siempre. Con el beanie Montagne queda redondo.",
+     det:"Botamanga apenas arremangada para que la caña de la Converse se vea entera. La A-2 abierta, nunca cerrada."},
+
+    {g:"Rock clásico",n:"18",name:"Negro con quiebre claro",tag:"Salidas",
+     items:[["merino","negro","Crewneck Live Rock negro"],["jean","denimClaro","Jean Levi's azul claro"],["zapatilla","negro","Converse Hi de cuero"]],
+     cl:"chambray",cg:"cuero",
+     why:"El negro arriba y el jean claro abajo hacen el contraste alto que te favorece. El buzo liso pasa por remera de banda sin el logo.",
+     det:"Si el logo del crewneck se lee de lejos, cambialo por la remera Pima negra. La regla es la misma: nada de estampas grandes."},
+
+    {g:"Rock clásico",n:"19",name:"Camisa navy abierta",tag:"Salidas",
+     items:[["camisa","navy","Camisa Lacoste navy, abierta"],["tee","blanco","Remera blanca de algodón"],["jean","denimClaro","Jean Levi's azul claro"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"crewneck",cg:"cuero",
+     why:"La misma camisa del trabajo, desarmada: abierta, arremangada y sobre remera. Eso solo ya la vuelve rock.",
+     det:"Mangas arremangadas hasta el codo, no prolijas. La camisa por fuera y abierta del todo."},
+
+    {g:"Rock clásico",n:"20",name:"Vichy sobre negro",tag:"Noche",
+     items:[["camisa","vichy","Camisa vichy Honky Tonk, abierta"],["tee","negro","T-shirt Pima negra"],["jean","denimOsc","Jean 511 índigo"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"equus",cg:"cuero",
+     why:"El cuadro grande blanco y negro es tu prenda más rockera. Con remera negra debajo y jean oscuro queda como estilo, no como disfraz.",
+     det:"Es la única prenda con fuerza del conjunto: todo lo demás liso. Las Vans repiten el blanco y negro del cuadro."},
+
+    {g:"Rock clásico",n:"21",name:"Blanco sobre negro",tag:"Noche",
+     items:[["tee","offwhite","Henley Pima blanca"],["jean","negro","Jean negro Polo Club"],["zapatilla","negro","Converse Hi de cuero"]],
+     cl:"chambray",cg:"cuero",
+     why:"El clásico del rock: blanco arriba, negro abajo y cuero marrón encima. El contraste alto te ilumina la cara.",
+     det:"Con el jean negro, la campera nunca negra: la A-2 marrón o la chambray abierta. Si querés más rock, Vans en lugar de Converse."},
+
+    {g:"Para ensayar",n:"22",name:"Ensayo tipo",tag:"Batería",
+     items:[["tee","negro","T-shirt Pima negra"],["jean","denimClaro","Jean Levi's azul claro"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"equus",cg:"cuero",
+     why:"Cómodo para tocar y con el estilo marcado. La suela plana de las Vans te deja sentir el pedal.",
+     det:"El jean claro es más holgado que el 511 y no tira en las rodillas. La campera es para llegar e irte: mientras tocás, colgada."},
+
+    {g:"Para ensayar",n:"23",name:"Ensayo con calor",tag:"Batería",
+     items:[["tee","gris","T-shirt Levi's gris"],["pantalon","negro","Jogger técnico FILA negro"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"equus",cg:"puffer",
+     why:"Para ensayos largos o días de calor: el jogger técnico seca rápido y no te limita las piernas.",
+     det:"En la mochila: remera de repuesto y toalla chica. Sacate el reloj si golpea contra el aro y no toques con el beanie puesto."},
+
+    {g:"Pendiente de compra",n:"27",name:"Blanca y carbón",tag:"Diario",
+     items:[["tee","blanco","Remera blanca de algodón"],["pantalon","carbon","Chino carbón (a comprar)"],["zapatilla","palermo","Puma Palermo"]],
+     cl:"chambray",cg:"cuero",
+     why:"Con el chino carbón, la blanca es la que da el contraste. La navy al lado del carbón se confunde.",
+     det:"Falta el chino carbón, que se compra en marzo."},
+
+    {g:"Pendiente de compra",n:"28",name:"Navy y arena",tag:"Diario",
+     items:[["tee","navy","Remera navy de algodón"],["pantalon","arena","Chino arena o camel (a comprar)"],["zapatilla","vans","Vans Old Skool"]],
+     cl:"equus",cg:"cuero",
+     why:"El primer tono cálido de la cintura para abajo, que es justo lo que falta en tu paleta.",
+     det:"Falta el chino arena o piedra liviano, que ahora es el primero de la lista de compras."},
+
+    {g:"Pendiente de compra",n:"29",name:"Cuero y Chelsea",tag:"Salidas",
+     items:[["tee","blanco","Remera blanca de algodón"],["jean","denimOsc","Jean 511 índigo"],["botineta","cuero","Chelsea de cuero marrón (a comprar)"]],
+     cl:"chambray",cg:"cuero",
+     why:"Las Chelsea son la única pieza rockera del conjunto: el resto queda liso y clásico.",
+     det:"Faltan las Chelsea marrones (se compran para el otoño) y el cinturón marrón de hebilla de bronce, que va con ellas."},
+
+    {g:"Pendiente de compra",n:"40",name:"Henley y arena",tag:"Verano",
+     items:[["tee","offwhite","Henley Pima blanca"],["pantalon","arena","Chino liviano arena o piedra (a comprar)"],["zapatilla","vlcourt","adidas VL Court"]],
+     why:"El tono claro abajo hace de la henley blanca un conjunto de calor sin perder el quiebre.",
+     det:"Falta el chino liviano arena o piedra. Henley por fuera, dos botones abiertos, y el anillo de plata como toque."},
+
+    {g:"Pendiente de compra",n:"41",name:"Lino navy abierta",tag:"Verano",
+     items:[["camisa","navy","Camisa de lino navy, abierta (a comprar)"],["tee","blanco","Remera blanca de algodón"],["pantalon","oliva","Chino verde militar"],["zapatilla","vans","Vans Old Skool"]],
+     why:"La camisa de lino abierta sobre la remera blanca es la versión clásica de la camisa abierta, y el navy cerca de la cara te favorece.",
+     det:"Falta la camisa de lino manga corta navy. Abierta del todo; la capa liviana no hace falta."},
+
+    {g:"Pendiente de compra",n:"42",name:"Vichy y arena",tag:"Verano",
+     items:[["camisa","vichy","Camisa vichy grande, arremangada y abierta"],["tee","blanco","Remera blanca de algodón"],["pantalon","arena","Chino liviano arena o piedra (a comprar)"],["zapatilla","palermo","Puma Palermo"]],
+     why:"La pieza rockera es la vichy; el resto, liso.",
+     det:"Falta el chino liviano arena o piedra."},
+
+    {g:"Pendiente de compra",n:"44",name:"Lino off-white de noche",tag:"Noche",
+     items:[["camisa","offwhite","Camisa de lino off-white (a comprar)"],["pantalon","navy","Chino navy liviano (a comprar)"],["zapato","cuero","Mocasín marrón (a comprar)"]],
+     why:"La salida de noche en versión clásica: todo liso, con el marrón del mocasín y del cinturón como único contraste.",
+     det:"Faltan la camisa de lino, el chino navy, el mocasín marrón y el cinturón de cuero marrón. Con media navy, al tono del chino."},
+
+    {g:"Pendiente de compra",n:"45",name:"Chambray y arena para trabajar",tag:"Trabajo",
+     items:[["camisa","denimMed","Camisa chambray Levi's, arremangada"],["pantalon","arena","Chino liviano arena o piedra (a comprar)"],["zapatilla","vlcourt","adidas VL Court"]],
+     why:"Para trabajar con zapatilla en verano: chambray arremangada sobre un chino claro, sin ninguna capa más.",
+     det:"Falta el chino liviano arena o piedra."}
+  ];
+
+  var looksViejos=[
+    {n:"01",name:"Base blanca",tag:"Día a día",
+     items:[["tee","blanco","Remera blanca",0],["pantalon","arena","Chino arena",0],["zapatilla","blanco","Zapatilla blanca",1]],
+     why:"El contraste más limpio posible: blanco arriba, tono medio abajo. La cara queda iluminada y la pierna se lee larga.",
+     det:"Estrená las Puma Palermo. Faltan la remera de algodón pesado sin logo y el chino arena."},
+    {n:"02",name:"Camisa de jean",tag:"Día a día",
+     items:[["camisa","denimMed","Camisa chambray",1],["tee","blanco","Remera blanca",0],["pantalon","carbon","Chino carbón",0],["zapatilla","navy","Zapatilla azul",1]],
+     why:"Ya lo usás y te queda bien. El denim medio es el tono que más te levanta el rostro sin pedirte nada.",
+     det:"Tu Levi's chambray más las adidas VL Court. Con el chino carbón queda cerrado."},
+    {n:"03",name:"Sobrecamisa oliva",tag:"Día a día",
+     items:[["sobrecamisa","oliva","Sobrecamisa oliva",0],["tee","gris","Remera gris",1],["jean","denimOsc","Jean 511",1],["zapatilla","blanco","Zapatilla blanca",1]],
+     why:"El oliva funciona como tercera capa porque no toca la cara. Suma color sin competir con la barba.",
+     det:"Una sola compra lo habilita. La sobrecamisa va abierta y termina en la cadera."},
+    {n:"04",name:"Oxford y chino",tag:"Trabajo",
+     items:[["camisa","blanco","Oxford blanca",0],["pantalon","carbon","Chino carbón",0],["zapato","cuero","Derby marrón",0]],
+     why:"El piso del vestuario de oficina. Blanco contra carbón es el contraste que mejor sostiene tu cara.",
+     det:"El chino carbón del mes 1 lo habilita a medias. Mientras tanto, la Lacoste navy con el jean 511 y el zapato negro es lo más cerca que llegás."},
+    {n:"05",name:"Blazer navy",tag:"Trabajo",
+     items:[["blazer","navy","Blazer navy",0],["tee","blanco","Remera blanca",0],["jean","denimOsc","Jean 511",1],["zapatilla","blanco","Zapatilla blanca",1]],
+     why:"El look ancla. Tres piezas simples que te dejan vestido para reunión, cena o presentación sin cambiar nada.",
+     det:"Media base ya la tenés. El blazer desestructurado es la compra número uno de la lista."},
+    {n:"06",name:"Punto sobre camisa",tag:"Trabajo",
+     items:[["merino","gris","Sweater gris",1],["camisa","blanco","Camisa celeste",1],["pantalon","greige","Chino gris",0],["zapato","cuero","Derby marrón",0]],
+     why:"Capa de invierno sin campera. El cuello de la camisa afuera te da estructura donde el cuello rapado la pide.",
+     det:"Tu Brooksfield gris sobre la chambray de Levi's. Si el escote en V es profundo, cambialo por cuello redondo."},
+    {n:"07",name:"Blazer y cuello alto",tag:"Trabajo frío",
+     items:[["blazer","grisJasp","Blazer gris",0],["cuelloalto","botella","Cuello alto botella",0],["pantalon","carbon","Chino carbón",0],["botineta","cuero","Botineta marrón",0]],
+     why:"La versión más formal sin corbata. El verde botella aporta profundidad sin salirse de lo clásico.",
+     det:"El único look donde el cuello alto te funciona: el blazer devuelve la línea de hombro que el cuello se come."},
+    {n:"08",name:"Negro sobre navy",tag:"Salidas",
+     items:[["tee","negro","Remera Pima negra",1],["jean","denimOsc","Jean 511",1],["bomber","navy","Bomber navy",0],["zapatilla","negro","Zapatilla oscura",1]],
+     why:"Tu zona natural, limpiada. La misma silueta que ya usás pero sin logos ni estampas al pecho.",
+     det:"Con la Equus negra ya funciona. En navy funciona mejor: la diferencia de tono evita que te leas como un bloque."},
+    {n:"09",name:"Cuero marrón",tag:"Salidas",
+     items:[["campera","cuero","Bomber cuero A-2",1],["tee","offwhite","Henley blanca",1],["jean","denimOsc","Jean 511",1],["botineta","cuero","Botineta marrón",0]],
+     why:"El marrón de tu bomber vintage es el tono cálido que te falta en todo el resto del placard. Es tu mejor prenda y casi no aparece en las fotos.",
+     det:"Este look ya lo podés armar entero hoy. Empezá por acá."},
+    {n:"10",name:"Burdeos de fin de semana",tag:"Fin de semana",
+     items:[["merino","burdeos","Merino burdeos",0],["tee","blanco","Remera blanca",0],["pantalon","oliva","Chino oliva",1],["zapatilla","navy","Zapatilla azul",1]],
+     why:"Burdeos y oliva es la combinación de color más interesante que podés hacer sin salirte de lo clásico.",
+     det:"Tu chino verde militar de Levi's es la base. Una sola prenda con color por conjunto: si sumás una tercera, se desarma."}
+  ];
+
+  function capa(key, kind){
+    var c = CAPAS[key];
+    return '<div class="layer"><figure>'+DRAW[c[0]](C[c[1]])+'</figure>'
+      +'<span class="lt"><span class="lk">'+kind+'</span><span class="ln">'+c[2]+'</span></span></div>';
+  }
+
+  /* temporadas: v = verano, m = media estación, i = invierno */
+  var SEAS={"01":"mi","02":"mi","03":"mi","04":"vmi","05":"mi","06":"vmi","24":"mi","25":"mi","26":"vmi",
+    "07":"vmi","08":"mi","09":"vm","10":"mi","11":"mi","43":"vmi","12":"mi","13":"vmi","14":"mi",
+    "15":"mi","16":"vmi","17":"mi","18":"mi","19":"mi","20":"mi","21":"vmi","22":"mi","23":"vmi",
+    "30":"v","31":"v","32":"v","33":"v","34":"v","35":"v",
+    "27":"mi","28":"vm","29":"mi","36":"v","37":"v","38":"v","39":"v","40":"v","41":"v","42":"v","44":"v","45":"v"};
+  var TEMP={
+    v:{n:"Verano",note:"De diciembre a marzo. Siempre pantalón largo liviano, que tapa las medias altas. Una prenda arriba: la única capa posible es liviana (chambray abierta), solo para la noche o el aire acondicionado. Nada de capa gruesa. El toque rockero lo ponen el calzado, los accesorios, el negro de noche y la camisa abierta, no el cuero."},
+    m:{n:"Media estación",note:"De marzo a mayo y de septiembre a noviembre. Acá entran el cuero A-2, la bomber negra, la chambray, el trucker cuando lo compres y, desde abril, las Chelsea."},
+    i:{n:"Invierno",note:"De junio a agosto. Puffer, sweater gris, crewneck negro, merino, beanie, impermeable Columbia, jean índigo o negro y Chelsea."}
+  };
+  var LST="vestuario-temporada", temporada="v";
+  try{ var t0=localStorage.getItem(LST); if(t0 && TEMP[t0]) temporada=t0; }catch(e){}
+
+  function capasHTML(L,s){
+    var a="", b="";
+    if(s==="v"){ if(L.cl==="chambray") a=capa(L.cl,"Capa liviana (opcional, de noche)"); }
+    else{
+      if(L.cl) a=capa(L.cl,"Capa liviana");
+      if(L.cg && (s==="i" || L.cg==="cuero")) b=capa(L.cg,"Capa gruesa");
+    }
+    return (a||b) ? '<div class="layers">'+a+b+'</div>' : '';
+  }
+
+  var CAT={"Día a día":"Diario","Trabajo, con zapatilla":"Diario","Cerca de casa":"Diario","Para ensayar":"Diario",
+    "Salidas con amigos":"Salidas","Rock clásico":"Salidas","Pendiente de compra":"Pendiente de compra"};
+  var ORDEN={"Diario":0,"Salidas":1,"Pendiente de compra":2};
+
+  function renderLooks(){
+    var lastG="";
+    var lista=looksNuevos.filter(function(L){ return (SEAS[L.n]||"vmi").indexOf(temporada)>=0; })
+      .map(function(L,i){ return {L:L,c:CAT[L.g]||L.g,i:i}; })
+      .sort(function(x,y){ return (ORDEN[x.c]-ORDEN[y.c]) || (x.i-y.i); })
+      .map(function(o){ var L=Object.create(o.L); L.g=o.c; return L; });
+    el("season-note").textContent=TEMP[temporada].note;
+    Array.prototype.forEach.call(el("seasons").children,function(b){
+      var on=(b.dataset.s===temporada); b.className=on?"on":""; b.setAttribute("aria-pressed",on?"true":"false");
+    });
+    el("looks").innerHTML = lista.map(function(L){
+      var hd = (L.g!==lastG) ? '<h2 class="lgroup">'+L.g+'</h2>'+(L.gn&&temporada==="v"?'<p class="sub">'+L.gn+'</p>':'') : ''; lastG=L.g;
+      var rack = L.items.map(function(it){
+        return '<div class="piece">'+DRAW[it[0]](C[it[1]])
+          +'<span class="pl">'+it[2]+'</span></div>';
+      }).join("");
+      return hd+'<article class="look"><div class="look-head"><span class="num">'+L.n+'</span>'
+        +'<h3>'+L.name+'</h3><span class="tag">'+L.tag+'</span></div>'
+        +'<div class="rack">'+rack+'</div>'
+        +capasHTML(L,temporada)
+        +'<div class="notes"><p><b>Por qué</b>'+L.why+'</p><p><b>El detalle</b>'+L.det+'</p></div></article>';
+    }).join("");
+  }
+  el("seasons").addEventListener("click",function(e){
+    var b=e.target.closest("button"); if(!b||!TEMP[b.dataset.s]) return;
+    temporada=b.dataset.s;
+    try{ localStorage.setItem(LST,temporada); }catch(err){}
+    renderLooks();
+  });
+  renderLooks();
+
+  /* ============ COMPRAS ============ */
+
+
+  var LISTA=[
+    {id:"o8",g:"ahora",n:1,t:"Chino liviano arena o piedra",
+     spec:"Arena o piedra · talle 34",
+     req:"Gabardina liviana o twill fino · poco elastano, si tiene · corte tapered o slim · mismo modelo que los otros chinos",
+     p:"Es el pantalón largo que más vas a usar en verano. Los tonos claros encajan con todo lo que tenés: remeras blanca y navy, henleys, polo negro, chambray.",
+     u:"Los conjuntos 28, 40, 42 y 45.",
+     nota:"Va con la media beige. Si lo usás seguido, con un solo par beige te va a faltar rotación.",
+     pr:"Levi's XX Chino Standard Taper $169.000 de lista (una referencia a $139.000); XX Chino Slim II en SALE $98.450 (lista $179.000); Kevingston gabardina $93.500; Macowens $91.188 a $103.188 de lista (nov 2026).",
+     cuando:"Black Friday si encontrás 25% o más de descuento; si no, ahora.",
+     tiendas:"Levi's · Kevingston · Macowens · Devré · Dockers"},
+    {id:"pl",g:"ahora",n:2,t:"Pantalón liviano de lino o segundo chino piedra",
+     spec:"Lino o lino con algodón, o gabardina liviana · piedra, arena u oliva · talle 34",
+     req:"Largo que apoye sobre el empeine · corte recto o tapered · sin cordón",
+     ev:"Pantalón de lino con cordón o elástico · largo al tobillo o ruedo corto (deja ver la media)",
+     p:"Reemplaza a los shorts: con medias altas todo el día, el verano se arma con pantalón largo liviano.",
+     nota:"Precio sin relevar.",
+     cuando:"Black Friday o ahora.",
+     tiendas:"Kevingston · Macowens · Devré · Levi's · Dockers"},
+    {id:"cl1",g:"ahora",n:3,t:"Camisa de lino manga corta lisa",
+     spec:"Navy, oliva u off-white · talle M · cuello camp",
+     req:"Lino o lino con algodón · manga corta · lisa · cuello camp (solapa plana)",
+     ev:"Floreada u hawaiana",
+     p:"Es lo que más le falta al plan: abierta sobre una remera blanca o negra, o cerrada y prolija de noche.",
+     u:"Los conjuntos 41 y 44.",
+     pr:"Kevingston: Siziano de lino $75.900, Veneto $86.000, Habana manga corta lisa $66.000 (nov 2026).",
+     cuando:"Black Friday o ahora.",
+     tiendas:"Kevingston · Macowens · Devré"},
+    {id:"o5",g:"ahora",n:4,t:"Cinturón de cuero marrón con hebilla de bronce",
+     spec:"Marrón oscuro",
+     req:"Cuero genuino · hebilla simple de bronce o latón · ancho de 3 a 3,5 cm",
+     ev:"Logo en la hebilla · hebilla plateada brillante · cuero reconstituido",
+     p:"Se usa todo el año, y en verano lo vas a necesitar con el chino claro.",
+     u:"Va con las Chelsea (conjunto 29) y con el conjunto 44.",
+     pr:"Kevingston: Cinto Cuero Liso Engrasado $39.900, Cinto John $33.000; MC Shoes $43.000 (nov 2026).",
+     cuando:"Ahora: es una compra barata, no esperes.",
+     tiendas:"Kevingston · Mancini · marroquinerías · Mac Owens"},
+    {id:"o6",g:"ahora",n:5,t:"Malla para el reloj Tommy Hilfiger",
+     spec:"NATO negra o navy, o caucho negro, para el verano · cuero marrón oscuro desde marzo",
+     req:"Ancho igual al de las agarraderas del reloj (18, 20 o 22 mm: medir antes)",
+     ev:"Si elegís cuero: sintético o costura en contraste llamativa",
+     p:"Tu único reloj está fuera de uso por la malla rota, y en verano el reloj es uno de tus pocos recursos rockeros.",
+     nota:"El cuero sufre con la transpiración de enero: para el calor, una NATO de nylon o una de caucho, y el cuero marrón oscuro para marzo. Precio sin relevar.",
+     cuando:"Ahora.",
+     tiendas:"Relojerías · Mercado Libre"},
+    {id:"p1",g:"ahora",n:6,t:"Montblanc Explorer",
+     spec:"Perfume de día · Eau de Parfum · 100 ml",
+     req:"Original, de distribuidor oficial · Eau de Parfum",
+     ev:"Decants o réplicas · vendedores sin factura",
+     p:"Sirve en verano: amaderado aromático, con bergamota, salvia y pimienta rosa de salida, vetiver y cuero de corazón, y pachulí, cacao y ambroxan de fondo. Duración y estela moderadas.",
+     pr:"100 ml: $143.000 en Mercado Libre, $194.600 en Perfumerías Rouge, $302.500 en Farmacias RP (nov 2026).",
+     nota:"Con calor, 2 o 3 disparos; si querés algo más fresco existe el Explorer Ultra Blue. Comprá en tienda oficial o vendedor reconocido (Rouge, Juleriaque). Comparar 60 ml contra 100 ml por precio por ml.",
+     cuando:"Black Friday.",
+     tiendas:"Rouge · Juleriaque · perfumerías oficiales · free shop"},
+
+    {id:"a1",g:"pronto",n:7,t:"Anillo de plata 925 liso",
+     spec:"Plata 925 · banda lisa",
+     req:"Plata 925 con sello · banda lisa de 6 a 8 mm de ancho · terminación pulida · sin piedra ni grabado · grosor de 2 mm o más",
+     ev:"Baño de plata · acero · alpaca",
+     p:"En verano es la pieza rockera más eficiente: no da calor y funciona con remera y con camisa. Uno solo, en el índice o el mayor de la mano que no lleva el reloj.",
+     pr:"$63–74 mil (oct 2026): Osmarina Joyas, banda de 1 cm (más ancha que lo ideal), $74.300 y $63.155 por transferencia.",
+     nota:"Todavía no tenés el talle de anillo: medilo antes de comprar.",
+     cuando:"Ahora.",
+     tiendas:"Joyerías de plata · plateros · Mercado Libre · Osmarina Joyas"},
+    {id:"a2",g:"pronto",n:8,t:"Pulsera fina de cuero (o cadena fina de plata)",
+     spec:"Negro o marrón oscuro · largo 19 a 20 cm (muñeca de 18 cm)",
+     req:"5 a 8 mm de ancho · cuero genuino · una sola",
+     ev:"Pulseras anchas o trenzados gruesos · cierres grandes",
+     p:"Es un complemento de verano. No la superpongas con el reloj en la misma muñeca si usás anillo: con dos accesorios alcanza.",
+     pr:"$35–42 mil (oct 2026): El Boyero cuero y plata 925 $35 mil; PIET Icon 6.0 $42 mil ($37.800 por transferencia).",
+     cuando:"Ahora o en enero.",
+     tiendas:"El Boyero · PIET · artesanos · Mercado Libre"},
+    {id:"s1",g:"pronto",n:9,t:"Sérum para barba y protector solar",
+     spec:"Sérum liviano · para barba corta",
+     req:"Para barba corta",
+     p:"En verano conviene un sérum liviano antes que un bálsamo graso. Sumá protector solar para el cuero cabelludo: con la cabeza rapada no es opcional. Referencia para buscar: Primont Barber Serum.",
+     cuando:"Cuando lo necesites.",
+     tiendas:"Farmacias · perfumerías · Mercado Libre"},
+    {id:"mo",g:"pronto",n:10,t:"Mocasín o náutico de cuero o gamuza marrón oscuro",
+     spec:"Marrón oscuro · talle 42/43",
+     req:"Cuero o gamuza marrón oscuro",
+     ev:"Sintético",
+     p:"Es el calzado clásico de verano: con media navy y chino navy, o con media beige y chino arena. Es la alternativa clásica a la zapatilla: el lado rockero ya lo cubren las Converse Hi.",
+     u:"El conjunto 44.",
+     pr:"Hush Puppies: náuticos de cuero $119.000 (uno a $83.300 con 30% de descuento), mocasín Ben de nobuk $69.990, modelos Fly y Acton entre $129.000 y $142.690 (nov 2026).",
+     cuando:"Liquidación de enero o febrero: el calzado de alto verano es de lo que más se rebaja.",
+     tiendas:"Hush Puppies · Grimoldi · Mishka"},
+    {id:"o2",g:"pronto",n:11,t:"Camisa Oxford blanca",
+     spec:"Blanco · talle M",
+     req:"Algodón Oxford · cuello con botones · largo para usar por fuera",
+     ev:"Mezcla con poliéster · logo bordado grande",
+     p:"Se usa todo el año, y en verano funciona arremangada.",
+     cuando:"Liquidación de enero.",
+     tiendas:"Kevingston · Mac Owens · Brooksfield · Lacoste"},
+    {id:"re",g:"pronto",n:12,t:"Remera lisa de algodón grueso (opcional)",
+     spec:"Carbón u oliva · talle M",
+     req:"Algodón grueso · cuello redondo · sin logo · que termine a media bragueta",
+     p:"Para la cantidad de días de calor, cinco o seis remeras más dos henleys te dejan justo de rotación.",
+     cuando:"Liquidación de enero.",
+     tiendas:"Devré · Kevingston · Mac Owens"},
+
+    {id:"m4n",g:"despues",n:13,t:"Chino tapered navy",
+     spec:"Azul marino · talle 34",
+     req:"Mismo modelo y marca que el chino carbón · gabardina con elastano · sin pinzas · sin cordón",
+     ev:"Azul medio o brillante · jogger",
+     p:"Reemplaza al jogger de vestir: salir menos en jogging pide un pantalón que se sienta igual de cómodo pero que se lea como pantalón. Si querés uno ya, el navy es más versátil que el carbón para las noches de verano.",
+     u:"Los conjuntos 15 (barrio) y 44. Con la trucker no: dos azules parecidos.",
+     pr:"$91.000 a $169.000 de referencia (nov 2026).",
+     cuando:"Marzo.",
+     tiendas:"Devré · Mac Owens · Kevingston · Mancini · Dockers"},
+    {id:"m1",g:"despues",n:14,t:"Chino tapered carbón",
+     spec:"Carbón o gris oscuro · talle 34",
+     req:"Gabardina de algodón con 2–5% de elastano · corte tapered o slim · tiro medio · sin pinzas · sin cordón",
+     ev:"Jogger · cargo · 100% poliéster",
+     p:"No está mal como prenda, pero la gabardina de algodón con elastano en color oscuro es de las más calurosas para enero: le sirve a la noche o con aire acondicionado, no al mediodía.",
+     u:"El conjunto 27 (blanca y carbón).",
+     pr:"$91.000 a $169.000 de referencia (nov 2026).",
+     cuando:"Marzo.",
+     tiendas:"Devré · Mac Owens · Kevingston · Mancini · Levi's (XX Chino) · Dockers"},
+    {id:"m5c",g:"despues",n:15,t:"Botas Chelsea de cuero marrón oscuro",
+     spec:"Marrón o café oscuro · talle 42/43",
+     req:"Cuero vacuno o cuero genuino (no gamuza) · elástico lateral · punta redonda · suela de goma fina · suela cosida o muy bien pegada",
+     ev:"Punta afilada · taco alto · cierre en lugar de elástico · marrón claro, rojizo o anaranjado · sintético",
+     p:"Son prioridad alta para el otoño, no para ahora: una bota de cuero no se usa entre diciembre y marzo en Buenos Aires, y en invierno las vas a encontrar más baratas.",
+     u:"El conjunto 29 (cuero y Chelsea). No sirven para ensayar: la suela no te deja sentir el pedal.",
+     pr:"Oggi 9055 caoba $179.990; MC Shoes marrón $229.000 a $260.000; García de Jalón choco $185.000 (de $250.000); Lizantto café $239.900; Batistella $130.000 (nov 2026).",
+     nota:"Leé siempre la composición: el nombre no alcanza (la Zara 'Bota Chelsea Punta' es 75% poliuretano). Excepción: si en Black Friday aparecen en tu talle con 30% o más de descuento, comprala y guardala.",
+     cuando:"Hot Sale de mayo o liquidación de julio.",
+     tiendas:"Grimoldi · Hush Puppies · Mishka · zapaterías de cuero"},
+    {id:"p2",g:"despues",n:16,t:"Dior Fahrenheit",
+     spec:"Perfume de noche",
+     req:"Original, de distribuidor oficial",
+     ev:"Réplicas",
+     p:"Es un cuero con violeta, denso y muy potente: pesado para el calor y pensado para los meses frescos. El orden correcto es Explorer ahora y Fahrenheit en mayo.",
+     nota:"Armaf Club de Nuit Intense Man no es una versión barata del Fahrenheit: es otro perfume. Rouge y Juleriaque participaron del Hot Sale 2026 (Rouge con hasta 65% y 12 cuotas sin interés).",
+     cuando:"Hot Sale de mayo.",
+     tiendas:"Rouge · Juleriaque · perfumerías oficiales · free shop"},
+    {id:"m6t",g:"despues",n:17,t:"Campera de jean trucker",
+     spec:"Índigo medio u oscuro · talle M",
+     req:"Denim con cuerpo · corte clásico al cuerpo que termine en la cintura",
+     ev:"Roturas · parches · denim elastizado finito · oversize",
+     p:"El denim da calor en enero: es una prenda de marzo a mayo y de septiembre a noviembre.",
+     u:"Capa liviana para el chino oliva, el jean negro Polo Club y el chino arena. Con el chino navy no, y nunca con el 511: total denim.",
+     pr:"Levi's The Trucker Jacket $229.000 de lista; una referencia a $193.000; en Mercado Libre $198.000 (nov 2026).",
+     cuando:"Liquidación de julio y agosto, o Black Friday 2027.",
+     tiendas:"Levi's Store · Kevingston · Mac Owens"},
+    {id:"o3",g:"despues",n:18,t:"Suéter merino cuello redondo",
+     spec:"Burdeos o verde botella · talle M",
+     req:"100% lana merino · cuello redondo",
+     ev:"Acrílico",
+     p:"Tu único punto clásico es el Brooksfield gris. Falta color, y sobre remera funciona perfecto en casual.",
+     pr:"Equus 100% merino $87.890; Bensimon unos $167.000; Olegario rebajado entre $39.999 y $51.999 (nov 2026).",
+     cuando:"Liquidación de julio y agosto.",
+     tiendas:"Equus · Kevingston · Mac Owens · Brooksfield · Lacoste"},
+    {id:"a4",g:"despues",n:19,t:"Beanie de color",
+     spec:"Navy, oliva o burdeos",
+     req:"Tejido grueso · sin logo grande",
+     p:"Rompe el bloque negro y suma color en la cabeza, que es lo que primero se mira.",
+     cuando:"De mayo a julio.",
+     tiendas:"Kevingston · Mac Owens · Montagne"},
+    {id:"s2",g:"despues",n:20,t:"Peine guía de 12 mm para la Philips MG7715",
+     spec:"Repuesto · opcional",
+     req:"Compatible con la Philips MG7715",
+     p:"Es tecnología, y esas ofertas suelen aparecer en CyberMonday y Black Friday.",
+     cuando:"CyberMonday o Black Friday.",
+     tiendas:"Philips · Mercado Libre"},
+    {id:"m3",g:"despues",n:21,t:"Armazón de anteojos de lectura carey panto",
+     spec:"Carey · acetato · forma panto",
+     req:"Acetato · forma panto · con la receta actual",
+     ev:"Plástico inyectado",
+     p:"Aporta el tono cálido que no tenés en ninguna prenda.",
+     pr:"$99–140 mil (oct 2026): Vulk de receta.",
+     cuando:"Solo al renovar la receta.",
+     tiendas:"Ópticas · Vulk · Infinit"}
+  ];
+
+  var COMPRADO=[
+    {t:"Dos remeras lisas de algodón grueso, blanca y navy",f:"nov 2026"},
+    {t:"Anteojos de sol Ray-Ban",f:"nov 2026",d:"Ya los tenés: se quitó el Wayfarer de la lista."}
+  ];
+
+  var bought={};
+  var LS="vestuario-compras-v1", dbRef=null;
+  try{ var raw=localStorage.getItem(LS); if(raw) bought=JSON.parse(raw)||{}; }catch(e){}
+  function persist(){
+    try{ localStorage.setItem(LS,JSON.stringify(bought)); }catch(e){}
+    if(dbRef){ try{ dbRef.set({bought:bought}).catch(function(){}); }catch(e){} }
+  }
+  function chk(id,done){
+    return '<label class="chk"><input type="checkbox" data-id="'+id+'"'+(done?' checked':'')+'><span>'+(done?'Comprado':'Marcar como comprado')+'</span></label>';
+  }
+  function row(kind,t){ return '<p class="unlock"><b>'+kind+'</b>'+t+'</p>'; }
+  function renderCompras(){
+    var total=LISTA.length, n=0;
+    LISTA.forEach(function(x){ if(bought[x.id]) n++; });
+    el("avance").innerHTML='<b>Avance</b>'+n+' de '+total+' compradas, además de las '+COMPRADO.length+' que ya tenés.'+(n===total?' Lista completa.':'');
+    function grupo(g){
+      return LISTA.filter(function(x){return x.g===g;})
+        .sort(function(a,b){ return (bought[a.id]?1:0)-(bought[b.id]?1:0); });
+    }
+    function card(x,first){
+      var d=!!bought[x.id];
+      var head='<div class="month-head"><span class="mnum">Nº '+x.n+'</span><h3>'+x.t+'</h3>'+chk(x.id,d)+'</div>';
+      if(d) return '<div class="month done">'+head+'</div>';
+      return '<div class="month'+(first?' now':'')+'">'+head
+        +'<span class="spec">'+x.spec+'</span>'+(x.p?'<p style="margin-top:8px">'+x.p+'</p>':'')
+        +(x.cuando?row('Cuándo',x.cuando):'')
+        +(x.req?row('Tiene que cumplir',x.req):'')
+        +(x.ev?row('Evitar',x.ev):'')
+        +(x.u?row('Te habilita',x.u):'')
+        +(x.pr?row('Precios',x.pr):'')
+        +(x.nota?row('Ojo',x.nota):'')
+        +(x.tiendas?row('Para empezar a buscar',x.tiendas):'')+'</div>';
+    }
+    function itemLi(x){
+      var d=!!bought[x.id];
+      function k(l,v){ return v?'<span class="d"><b class="k">'+l+'</b> '+v+'</span>':''; }
+      return '<li class="'+(d?'done':'')+'"><div><b>'+x.t+'</b>'
+        +(d?'':'<span class="d">'+x.spec+'</span>'+(x.p?'<span class="d">'+x.p+'</span>':'')
+          +k('Cuándo',x.cuando)+k('Tiene que cumplir',x.req)+k('Evitar',x.ev)+k('Te habilita',x.u)+k('Precios',x.pr)+k('Ojo',x.nota)+k('Para empezar a buscar',x.tiendas))
+        +chk(x.id,d)+'</div><em>Nº '+x.n+'</em></li>';
+    }
+    el("meses").innerHTML=grupo("ahora").map(function(x,i){ return card(x,i===0); }).join("");
+    el("compras-b").innerHTML=grupo("pronto").map(itemLi).join("");
+    el("compras-acc").innerHTML=grupo("despues").map(itemLi).join("");
+    el("comprado").innerHTML=COMPRADO.map(function(c){
+      return '<li class="done"><div><b>'+c.t+'</b>'+(c.d?'<span class="d">'+c.d+'</span>':'')+'</div><em>'+c.f+'</em></li>';
+    }).join("");
+  }
+  renderCompras();
+  el("v-compras").addEventListener("change",function(e){
+    var t=e.target; if(!t||!t.dataset||!t.dataset.id) return;
+    if(t.checked) bought[t.dataset.id]=1; else delete bought[t.dataset.id];
+    persist(); renderCompras();
+  });
+  (async function(){
+    try{
+      if(!window.claude||!window.claude.use) return;
+      var db=await window.claude.use("db"), user=await window.claude.use("user");
+      if(!db||!user) return;
+      var id=await user.id(); if(!id) return;
+      var ref=db.collection("data/users/"+id).doc("compras");
+      var snap=await ref.get();
+      if(snap.exists){ var r=snap.data(); bought=(r&&r.bought)||{}; try{localStorage.setItem(LS,JSON.stringify(bought));}catch(e){} dbRef=ref; renderCompras(); }
+      else { dbRef=ref; if(Object.keys(bought).length) persist(); }
+    }catch(e){}
+  })();
+
+  el("evitar").innerHTML=[
+    ["Más negro","La mitad del placard ya lo es. Cada prenda negra nueva te resta variedad, no te suma.","#1A1C1F"],
+    ["Estampas y logos grandes","Tenés cuatro prendas que salen por este motivo. No repitas la compra.","#33363B"],
+    ["Prendas en L o XL","Tu talle de arriba es M. Lo que compraste más grande es lo que peor te queda.","#6E747C"],
+    ["Más zapatillas deportivas","Tenés seis pares de uso urbano. El faltante es cuero, no deportivo.","#4B5040"],
+    ["Shorts","Con medias altas todo el día, el short deja ver la pantorrilla con la media oscura. En verano, pantalón largo liviano.","#22304C"],
+    ["Pantalón corto de largo o arremangado","El pantalón tiene que apoyar sobre el empeine: es lo que tapa la media cuando caminás.","#5B626D"],
+    ["Cuero, botas y capas en pleno calor","De diciembre a marzo, el toque rockero lo ponen el calzado, los accesorios y el negro de noche, no el cuero.","#5A3A28"],
+    ["Bomber navy","Ya tenés bomber negra, A-2 de cuero, puffer e impermeable: una cuarta campera liviana no suma conjuntos nuevos.","#22304C"],
+    ["Alpargatas","Son un estilo playero o mediterráneo que no es el tuyo; el mocasín marrón cumple mejor esa función.","#CBB89A"],
+    ["Más joggers","Ya tenés cuatro, tres de frisa y uno técnico. Los de frisa quedan en casa y el técnico para gym y ensayo: para salir, chino o jean.","#8A9099"]
+  ].map(function(x){
+    return '<div class="pair"><span class="verdict v-no">No repetir</span>'
+      +'<div style="width:46px;height:46px;border-radius:3px;margin:4px auto 0;background:'+x[2]+';border:1px solid var(--rule)"></div>'
+      +'<figcaption>'+x[0]+'</figcaption><p>'+x[1]+'</p></div>'; }).join("");
+
+  /* arranque */
+  var h=(location.hash||"").replace("#","");
+  if(views.indexOf(h)>=0 && true) show(h);
+
+  if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(function(){}); }
+})();
+</script>
+
+</body></html>
